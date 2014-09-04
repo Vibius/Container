@@ -1,0 +1,23 @@
+{
+    "name": "vibius/container",
+    "type": "library",
+    "description": "Container component of Vibius PHP Framework",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matej Sima",
+            "email": "matej.sima@gmail.com",
+            "homepage": "http://www.facebook.com/maht0rz",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Vibius\\Container\\":"./src"
+        }
+    },
+    "minimum-stability":"dev",
+    "require": {
+        "php": ">=5.4.0"
+    }
+}    
