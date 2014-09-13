@@ -11,6 +11,8 @@ use Exception;
  */
 class Container{
 
+    use \Vibius\Facade\Utils;
+
     /**
      * @var array Holds intancens under multiple keys
      */
