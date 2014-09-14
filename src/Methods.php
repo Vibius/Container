@@ -20,8 +20,4 @@ trait Methods{
 		return $this->container->override($name, $value);
 	}
 
-	public function remove($name){
-		return $this->container->remove($name);
-	}
-
 }
