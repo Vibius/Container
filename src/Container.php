@@ -40,11 +40,13 @@ class Container{
 
         if( !isset(self::$privates[$key]) && ($private === true) ){
             self::$privates[$key] = new Container;
+            self::$privates[$key]->name = $key;
             return self::$privates[$key];
         }
 
         if( !isset(self::$instance[$key]) && ($private === false) ){
             self::$instance[$key] = new Container;
+            self::$instance[$key]->name = $key;
             return self::$instance[$key];
         }else if( $private === false ){
             return self::$instance[$key];
@@ -61,7 +63,7 @@ class Container{
      */
     public function add($key, $value){
         if( $this->exists($key) ){
-            throw new Exception("Item already exists in storage ($key)");
+            throw new Exception("Item already exists in storage ($key)  ($this->name)");
         }
         $this->storage[$key] = $value;
         return $this->storage[$key];
