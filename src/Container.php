@@ -17,6 +17,7 @@ class Container{
      * @var array Holds intancens under multiple keys
      */
     private static $instance;
+    private static $privates;
 
     public function __construct($instance = false){
     	if( $instance ){
@@ -35,12 +36,21 @@ class Container{
      * @param string $key Identifier for inner storage to find the proper instance to open or create.
      * @return object Instance of Container class picked by $key.
      */
-    public static function open($key){
-        if( !isset(self::$instance[$key]) ){
-            self::$instance[$key] = new Container;
+    public static function open($key, $private = false){
+
+        if( !isset(self::$privates[$key]) && ($private === true) ){
+            self::$privates[$key] = new Container;
+            return self::$privates[$key];
         }
 
-        return self::$instance[$key];
+        if( !isset(self::$instance[$key]) && ($private === false) ){
+            self::$instance[$key] = new Container;
+            return self::$instance[$key];
+        }else if( $private === false ){
+            return self::$instance[$key];
+        }
+
+        throw new Exception("Container instance cannot be opened!");
     }
 
     /**
