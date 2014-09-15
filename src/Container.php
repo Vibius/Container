@@ -36,17 +36,26 @@ class Container{
      * @param string $key Identifier for inner storage to find the proper instance to open or create.
      * @return object Instance of Container class picked by $key.
      */
-    public static function open($key, $private = false){
+    public static function open($key, $private = false, $secure = false){
 
         if( !isset(self::$privates[$key]) && ($private === true) ){
             self::$privates[$key] = new Container;
             self::$privates[$key]->name = $key;
+            self::$privates[$key]->secure = false;
+            if($secure){
+                self::$privates[$key]->secure = true;
+            }
             return self::$privates[$key];
         }
 
         if( !isset(self::$instance[$key]) && ($private === false) ){
             self::$instance[$key] = new Container;
             self::$instance[$key]->name = $key;
+            self::$instance[$key]->secure = false;
+            if($secure){
+                self::$instance[$key]->secure = true;
+            }
+
             return self::$instance[$key];
         }else if( $private === false ){
             return self::$instance[$key];
@@ -100,6 +109,9 @@ class Container{
      * @throws Exception Item does not exist in storage ($key)
      */
     public function override($key, $value){
+        if($this->secure){
+            throw new Exception("You can't override item's secure instance of container ($this->name)");
+        }
         if( !$this->exists($key) ){
             throw new Exception("Item does not exist in storage ($key)");
         }
@@ -113,6 +125,11 @@ class Container{
      * @throws Exception Item does not exist in storage ($key)
      */
     public function remove($key){
+
+        if($this->secure){
+            throw new Exception("You can't remove items from secure instance of container ($this->name)");
+        }
+
         if( !$this->exists($key) ){
             throw new Exception("Item does not exist in storage ($key)");
         }
