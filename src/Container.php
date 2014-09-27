@@ -18,17 +18,13 @@ class Container{
      */
     private static $instance;
     private static $privates;
+    public $secure = false;
+    public $private = false;
 
-    public function __construct($instance = false){
-    	if( $instance ){
-            $key = $instance;
-            if( !isset(self::$instance[$key]) ){
-                self::$instance[$key] = new Container;
-            }
-
-            return self::$instance[$key];
-        }
-
+    public function __construct($key = 'placeholder', $private = false, $secure = false){
+         $this->name = $key;
+         $this->private = $private;
+         $this->secure = $secure;
     }
 
     /**
@@ -110,7 +106,7 @@ class Container{
      */
     public function override($key, $value){
         if($this->secure){
-            throw new Exception("You can't override item's secure instance of container ($this->name)");
+            throw new Exception("You can't override items in secure instance of container ($this->name)");
         }
         if( !$this->exists($key) ){
             throw new Exception("Item does not exist in storage ($key)");
